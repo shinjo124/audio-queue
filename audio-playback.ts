@@ -1,0 +1,35 @@
+export interface AudioPlayback {
+  readonly isActive: boolean;
+  stop: () => void;
+}
+
+export function playAudioBuffer(
+  audioContext: AudioContext,
+  audioBuffer: AudioBuffer,
+): AudioPlayback {
+  // Call this function directly from a user gesture handler to unlock audio playback.
+  void audioContext.resume().catch(() => undefined);
+
+  let source: AudioBufferSourceNode | null = audioContext.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(audioContext.destination);
+
+  const cleanup = (): void => {
+    const activeSource = source;
+    if (activeSource === null) return;
+
+    source = null;
+    activeSource.stop();
+    activeSource.disconnect();
+  };
+
+  source.onended = cleanup;
+  source.start();
+
+  return {
+    get isActive() {
+      return source !== null;
+    },
+    stop: cleanup,
+  };
+}

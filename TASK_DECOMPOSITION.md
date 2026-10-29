@@ -22,7 +22,7 @@ Build a Vite + TypeScript audio task queue that accepts simultaneous track reque
 - [x] **2.6 — Implement download and decode:** Fetch each track, check HTTP failures, decode the returned `ArrayBuffer`, and route success or failure to the matching queued promise.
 - [x] **2.7 — Implement cancellation:** Use `AbortController` to cancel queued and active work. Ensure a cancelled task cannot later resolve successfully or be played if decoding finishes after cancellation.
 - [x] **2.8 — Implement the queue processor:** Advance through FIFO tasks after success, failure, or cancellation without leaving the queue stuck or processing one task twice.
-- [ ] **2.9 — Implement playback and node cleanup:** Create `AudioBufferSourceNode`s for playback, connect them to the shared graph, then stop/disconnect and release references on end, cancellation, or teardown. Remember that a source node is one-shot.
+- [x] **2.9 — Implement playback and node cleanup:** Create `AudioBufferSourceNode`s for playback, connect them to the shared graph, then stop/disconnect and release references on end, cancellation, or teardown. Remember that a source node is one-shot.
 - [ ] **2.10 — Add the analyser:** Connect an `AnalyserNode` into the audio graph and use an `fftSize` of 256 or 512 as required by the lab.
 - [ ] **2.11 — Build the visualizer:** Render frequency data to Canvas or SVG with `requestAnimationFrame`, avoiding per-frame framework state updates. Cancel the animation frame when stopped or unmounted.
 - [ ] **2.12 — Build the user controls:** Add track URL input, enqueue/cancel/play controls, and text status for queued, loading, ready, playing, cancelled, and failed tasks.
