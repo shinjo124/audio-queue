@@ -12,6 +12,7 @@ export interface AudioControlsOptions {
   tracks: AudioTrack[];
   queue: AudioTaskQueue<AudioBuffer>;
   audioContext?: AudioContext;
+  onPlaybackChange?: (playing: boolean) => void;
 }
 
 interface TrackState {
@@ -127,9 +128,11 @@ export function mountAudioControls(
         getSharedAudioGraph(context).analyser,
         () => {
           state.playback = null;
+          options.onPlaybackChange?.(false);
           updateStatus(item, state, 'Ready');
         },
       );
+      options.onPlaybackChange?.(true);
       updateStatus(item, state, 'Playing');
       return;
     }
@@ -137,6 +140,7 @@ export function mountAudioControls(
     if (button.dataset.action === 'stop' && state.playback !== null) {
       state.playback.stop();
       state.playback = null;
+      options.onPlaybackChange?.(false);
       updateStatus(item, state, 'Ready');
     }
   };
@@ -148,6 +152,7 @@ export function mountAudioControls(
       if (state?.playback === null || state?.playback === undefined) continue;
       state.playback.stop();
       state.playback = null;
+      options.onPlaybackChange?.(false);
       updateStatus(item, state, 'Ready');
     }
   };
@@ -162,7 +167,10 @@ export function mountAudioControls(
       for (const item of list.querySelectorAll<HTMLElement>('li[data-track-id]')) {
         const state = trackStates.get(item.dataset.trackId ?? '');
         state?.request?.cancel();
-        state?.playback?.stop();
+        if (state?.playback !== null && state?.playback !== undefined) {
+          state.playback.stop();
+          options.onPlaybackChange?.(false);
+        }
       }
       root.replaceChildren();
     },

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101827" />
+    <title>Concurrent Audio Queue</title>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <p class="eyebrow">HW2 · Web Audio API</p>
+        <h1>Concurrent Audio Queue</h1>
+        <p class="intro">Queue a sample track, play it through the shared analyser, or cancel a pending download.</p>
+      </header>
+
+      <section class="panel" aria-labelledby="tracks-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Playback lab</p>
+            <h2 id="tracks-heading">Track list</h2>
+          </div>
+          <span class="queue-limit">2 tasks at once</span>
+        </div>
+        <div id="track-list"></div>
+      </section>
+
+      <section class="panel visualizer-panel" aria-labelledby="visualizer-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Live frequency data</p>
+            <h2 id="visualizer-heading">Analyser</h2>
+          </div>
+          <span class="fft-size">FFT 256</span>
+        </div>
+        <canvas id="visualizer" aria-label="Audio frequency visualizer"></canvas>
+      </section>
+      <p class="page-note">Use Play to begin audio. Browsers require a user gesture before sound can start.</p>
+    </main>
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>

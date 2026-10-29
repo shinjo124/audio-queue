@@ -14,7 +14,7 @@ Build a Vite + TypeScript audio task queue that accepts simultaneous track reque
 
 ## Work breakdown
 
-- [ ] **2.1 — Bootstrap the app:** Create the Vite + TypeScript shell and confirm the dev server starts.
+- [x] **2.1 — Bootstrap the app:** Create the Vite + TypeScript shell and confirm the production preview serves successfully.
 - [ ] **2.2 — Define contracts:** Specify track request, queued task, task status, cancellation, queue result, and visualizer data types. Decide how callers identify/cancel a request and how task errors are reported.
 - [x] **2.3 — Set the concurrency policy:** Define FIFO ordering for concurrent enqueue calls and how many downloads/decodes may be active at once. Keep enqueue order deterministic and document the policy.
 - [ ] **2.4 — Initialize Web Audio safely:** Create or resume a shared `AudioContext` only from a user gesture; handle unsupported or suspended contexts.
