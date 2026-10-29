@@ -16,7 +16,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background: radial-gradient(ellipse at top, #17253c 0, #0b1220 58%);
+  background: #0b1220;
 }
 
 button { font: inherit; }
@@ -37,7 +37,7 @@ button:focus-visible {
 h1, h2, p { margin-top: 0; }
 h1 { margin-bottom: 12px; font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -0.045em; }
 .intro, .page-note { max-width: 620px; color: #b3c0d5; line-height: 1.65; }
-.panel { margin-bottom: 20px; padding: 26px; border: 1px solid #27364e; border-radius: 18px; background: rgb(17 28 45 / 92%); box-shadow: 0 20px 55px rgb(0 0 0 / 18%); }
+.panel { margin-bottom: 20px; padding: 26px; border: 1px solid #27364e; border-radius: 18px; background: #111c2d; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
 .section-heading h2 { margin: 0; font-size: 1.25rem; }
 .queue-limit, .fft-size { color: #aab9cf; font-size: 0.85rem; }
@@ -51,7 +51,7 @@ h1 { margin-bottom: 12px; font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -
 #track-list button:disabled { opacity: 0.42; cursor: not-allowed; }
 
 .visualizer-panel { padding-bottom: 20px; }
-#visualizer { display: block; width: 100%; height: 220px; border-radius: 12px; background: linear-gradient(180deg, #101a2a, #0d1725); }
+#visualizer { display: block; width: 100%; height: 220px; border-radius: 12px; background: #101a2a; }
 .page-note { margin: 20px 4px 0; font-size: 0.9rem; }
 
 @media (max-width: 720px) {
