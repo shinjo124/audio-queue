@@ -7,6 +7,7 @@ export function playAudioBuffer(
   audioContext: AudioContext,
   audioBuffer: AudioBuffer,
   analyser: AnalyserNode = getSharedAudioGraph(audioContext).analyser,
+  onEnded?: () => void,
 ): AudioPlayback {
   // Call this function directly from a user gesture handler to unlock audio playback.
   void audioContext.resume().catch(() => undefined);
@@ -24,7 +25,10 @@ export function playAudioBuffer(
     activeSource.disconnect();
   };
 
-  source.onended = cleanup;
+  source.onended = () => {
+    cleanup();
+    onEnded?.();
+  };
   source.start();
 
   return {
