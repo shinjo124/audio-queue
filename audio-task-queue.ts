@@ -72,7 +72,8 @@ export class ConcurrentAudioTaskQueue<TResult = AudioBuffer> implements AudioTas
         this.resolveTask(task, result);
       }
     } catch (error) {
-      this.rejectTask(task, task.controller.signal.aborted ? createAbortError() : error);
+      const cancelled = task.controller.signal.aborted || isAbortError(error);
+      this.rejectTask(task, cancelled ? createAbortError() : error);
     } finally {
       this.activeCount -= 1;
       this.processNext();
@@ -96,4 +97,11 @@ function createAbortError(): Error {
   const error = new Error('Audio task was cancelled.');
   error.name = 'AbortError';
   return error;
+}
+
+function isAbortError(error: unknown): boolean {
+  return typeof error === 'object'
+    && error !== null
+    && 'name' in error
+    && error.name === 'AbortError';
 }
