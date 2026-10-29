@@ -4,9 +4,17 @@ import { playAudioBuffer } from '../audio-playback.ts';
 
 function createPlaybackContext() {
   const sources = [];
+  const analyser = {
+    fftSize: 0,
+    frequencyBinCount: 128,
+    connectCalls: [],
+    connect(target) { this.connectCalls.push(target); },
+  };
   let resumeCalls = 0;
   return {
     destination: {},
+    createAnalyser() { return analyser; },
+    get analyser() { return analyser; },
     get sources() { return sources; },
     get resumeCalls() { return resumeCalls; },
     resume() {
@@ -42,6 +50,8 @@ test('resumes from the call and creates a fresh one-shot source for each play', 
   assert.equal(context.sources.length, 2);
   assert.equal(context.sources[0].buffer, firstBuffer);
   assert.equal(context.sources[1].buffer, secondBuffer);
+  assert.equal(context.sources[0].connectCalls[0], context.analyser);
+  assert.equal(context.sources[1].connectCalls[0], context.analyser);
   assert.equal(context.sources[0].startCalls, 1);
   assert.equal(context.sources[1].startCalls, 1);
 });

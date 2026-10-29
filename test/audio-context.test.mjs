@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { getSharedAudioContext, loadAudioBuffer } from '../audio-context.ts';
+import { getSharedAudioContext, getSharedAudioGraph, loadAudioBuffer } from '../audio-context.ts';
 
 function deferred() {
   let resolve;
@@ -23,6 +23,26 @@ test('creates one shared context and returns it on later calls', () => {
   assert.equal(getSharedAudioContext(createContext), context);
   assert.equal(getSharedAudioContext(createContext), context);
   assert.equal(creations, 1);
+});
+
+test('creates one shared analyser, connects it to destination, and allocates its data once', () => {
+  const destination = {};
+  const analyser = {
+    fftSize: 0,
+    frequencyBinCount: 128,
+    connectCalls: [],
+    connect(target) { this.connectCalls.push(target); },
+  };
+  const context = { destination, createAnalyser: () => analyser };
+
+  const firstGraph = getSharedAudioGraph(context);
+  const secondGraph = getSharedAudioGraph(context);
+
+  assert.equal(firstGraph, secondGraph);
+  assert.equal(firstGraph.analyser, analyser);
+  assert.equal(analyser.fftSize, 256);
+  assert.equal(firstGraph.frequencyData.length, 128);
+  assert.equal(analyser.connectCalls[0], destination);
 });
 
 test('decodes fetched bytes and returns the AudioBuffer', async () => {

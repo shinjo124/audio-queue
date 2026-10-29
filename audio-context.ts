@@ -1,6 +1,12 @@
 import { fetchTrack } from './fetch-track.ts';
 
 let sharedAudioContext: AudioContext | null = null;
+let sharedAudioGraph: AudioGraph | null = null;
+
+export interface AudioGraph {
+  analyser: AnalyserNode;
+  frequencyData: Uint8Array;
+}
 
 export function getSharedAudioContext(
   create: () => AudioContext = () => new AudioContext(),
@@ -9,6 +15,21 @@ export function getSharedAudioContext(
     sharedAudioContext = create();
   }
   return sharedAudioContext;
+}
+
+export function getSharedAudioGraph(
+  context: AudioContext = getSharedAudioContext(),
+): AudioGraph {
+  if (sharedAudioGraph === null) {
+    const analyser = context.createAnalyser();
+    analyser.fftSize = 256;
+    sharedAudioGraph = {
+      analyser,
+      frequencyData: new Uint8Array(analyser.frequencyBinCount),
+    };
+    analyser.connect(context.destination);
+  }
+  return sharedAudioGraph;
 }
 
 export async function loadAudioBuffer(

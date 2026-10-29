@@ -6,13 +6,14 @@ export interface AudioPlayback {
 export function playAudioBuffer(
   audioContext: AudioContext,
   audioBuffer: AudioBuffer,
+  analyser: AnalyserNode = getSharedAudioGraph(audioContext).analyser,
 ): AudioPlayback {
   // Call this function directly from a user gesture handler to unlock audio playback.
   void audioContext.resume().catch(() => undefined);
 
   let source: AudioBufferSourceNode | null = audioContext.createBufferSource();
   source.buffer = audioBuffer;
-  source.connect(audioContext.destination);
+  source.connect(analyser);
 
   const cleanup = (): void => {
     const activeSource = source;
@@ -33,3 +34,4 @@ export function playAudioBuffer(
     stop: cleanup,
   };
 }
+import { getSharedAudioGraph } from './audio-context.ts';
