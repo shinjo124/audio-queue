@@ -1,4 +1,5 @@
 import type { AudioTask, AudioTaskQueue, EnqueuedAudio } from './audio-queue-contract.ts';
+import { loadAudioBuffer } from './audio-context.ts';
 
 export type AudioTaskExecutor<TResult> = (
   trackUrl: string,
@@ -91,6 +92,12 @@ export class ConcurrentAudioTaskQueue<TResult = AudioBuffer> implements AudioTas
     task.settled = true;
     task.reject(reason);
   }
+}
+
+export function createAudioTaskQueue(
+  concurrencyLimit = 1,
+): ConcurrentAudioTaskQueue<AudioBuffer> {
+  return new ConcurrentAudioTaskQueue(loadAudioBuffer, concurrencyLimit);
 }
 
 function createAbortError(): Error {

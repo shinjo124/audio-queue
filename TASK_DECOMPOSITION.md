@@ -19,7 +19,7 @@ Build a Vite + TypeScript audio task queue that accepts simultaneous track reque
 - [x] **2.3 — Set the concurrency policy:** Define FIFO ordering for concurrent enqueue calls and how many downloads/decodes may be active at once. Keep enqueue order deterministic and document the policy.
 - [ ] **2.4 — Initialize Web Audio safely:** Create or resume a shared `AudioContext` only from a user gesture; handle unsupported or suspended contexts.
 - [x] **2.5 — Implement queue insertion:** Add task records in arrival order and return a promise for each requested decoded `AudioBuffer`.
-- [ ] **2.6 — Implement download and decode:** Fetch each track, check HTTP failures, decode the returned `ArrayBuffer`, and route success or failure to the matching queued promise.
+- [x] **2.6 — Implement download and decode:** Fetch each track, check HTTP failures, decode the returned `ArrayBuffer`, and route success or failure to the matching queued promise.
 - [x] **2.7 — Implement cancellation:** Use `AbortController` to cancel queued and active work. Ensure a cancelled task cannot later resolve successfully or be played if decoding finishes after cancellation.
 - [x] **2.8 — Implement the queue processor:** Advance through FIFO tasks after success, failure, or cancellation without leaving the queue stuck or processing one task twice.
 - [ ] **2.9 — Implement playback and node cleanup:** Create `AudioBufferSourceNode`s for playback, connect them to the shared graph, then stop/disconnect and release references on end, cancellation, or teardown. Remember that a source node is one-shot.
