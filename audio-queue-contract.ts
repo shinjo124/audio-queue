@@ -1,15 +1,15 @@
-export interface AudioTask {
+export interface AudioTask<TResult = AudioBuffer> {
   trackUrl: string;
   controller: AbortController;
-  resolve: (buffer: AudioBuffer) => void;
+  resolve: (result: TResult) => void;
   reject: (reason?: unknown) => void;
 }
 
-export interface EnqueuedAudio {
-  promise: Promise<AudioBuffer>;
+export interface EnqueuedAudio<TResult = AudioBuffer> {
+  promise: Promise<TResult>;
   cancel: () => void;
 }
 
-export interface AudioTaskQueue {
-  enqueue(trackUrl: string): EnqueuedAudio;
+export interface AudioTaskQueue<TResult = AudioBuffer> {
+  enqueue(trackUrl: string): EnqueuedAudio<TResult>;
 }
